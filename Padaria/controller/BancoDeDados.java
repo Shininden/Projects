@@ -26,6 +26,7 @@ public class BancoDeDados
         {
             InputStream is = new FileInputStream("paes.txt");
             InputStreamReader isr = new InputStreamReader(is);
+            @SuppressWarnings("resource")
             BufferedReader br = new BufferedReader(isr);
 
             String linha = br.readLine();

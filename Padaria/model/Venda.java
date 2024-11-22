@@ -1,7 +1,5 @@
 package Projects.Padaria.model;
 
-import Projects.Padaria.controller.BancoDeDados;
-
 import java.util.ArrayList;
 
 public class Venda
