@@ -1,10 +1,13 @@
-package Projects.Converters;
+package Projects.Converter;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class CaseConverter
 {
     static char[] txtCharArray;
+    static char[] originaltxtCharArray;
     static char[] aux;
     public static void main(String[] args)
     {
@@ -12,6 +15,8 @@ public class CaseConverter
 
         System.out.print("Type a text: ");
         String text = sc.nextLine();
+        txtCharArray = text.toCharArray();
+        originaltxtCharArray = Arrays.copyOf(txtCharArray, txtCharArray.length);;
         int option = 0;
 
         do
@@ -24,7 +29,8 @@ public class CaseConverter
             System.out.println("4 - ALL UPPER CASE");
             System.out.println("5 - Upper Case At The Beginning Of Every Word");
             System.out.println("6 - AlTeRnAtE cAsE");
-            System.out.println("7 - Exit");
+            System.out.println("7 - txeT esreveR");
+            System.out.println("8 - Exit");
 
             option = sc.nextInt();
 
@@ -53,9 +59,13 @@ public class CaseConverter
                 case 6:
                     alternateCase(text);
                 break;
+
+                case 7:
+                    reverseText(text);
+                break;
             }
         }
-        while (option != 7);
+        while (option != 8);
 
 
         sc.close();
@@ -63,25 +73,25 @@ public class CaseConverter
 
     static void phraseFormat(String text)
     {
-        txtCharArray = text.toCharArray(); //To navigate through the positions more easily
-
         for (int i = 0; i < txtCharArray.length; i++) 
         {
             if(i == 0) {
-                changeCaseLetter(text,i, 0, "upper");
+                changeCaseLetter(i, 0, "upper");
             }
 
             if(txtCharArray[i] == ' ' && (txtCharArray[i-1] == '.' || txtCharArray[i-1] == '?' || txtCharArray[i-1] == '!')) {
-                changeCaseLetter(text, i,1, "upper");
+                changeCaseLetter(i,1, "upper");
             }
             else if (txtCharArray[i] == ' ' && (txtCharArray[i-1] != '.' || txtCharArray[i-1] != '?' || txtCharArray[i-1] != '!')) {
-                changeCaseLetter(text, i, 1, "lower");
+                changeCaseLetter(i, 1, "lower");
             }
         }
 
         System.out.println(txtCharArray);
+        txtCharArray = Arrays.copyOf(originaltxtCharArray, originaltxtCharArray.length);
     }
-    static void changeCaseLetter(String text, int cont, int increment, String answer)
+    
+    static void changeCaseLetter(int cont, int increment, String answer)
     {
         String temp = String.valueOf(txtCharArray[cont + increment]); //to get the first letter
 
@@ -92,14 +102,31 @@ public class CaseConverter
             temp = temp.toLowerCase();
         }
 
-        aux = temp.toCharArray();
-        txtCharArray[cont + increment] = aux[0];
+        txtCharArray[cont + increment] = temp.charAt(0);
     }
-
 
     static void inverseCase(String text)
     {
-
+        for (int i = 0; i < txtCharArray.length; i++)
+        {
+            if(i == 0) {
+                changeCaseLetter(i, 0, "lower");
+            }
+            else if(i == 1){
+                changeCaseLetter(i, 0, "upper");
+            }
+            else
+            {
+                if (txtCharArray[i - 2] == '.' || txtCharArray[i - 2] == '?' || txtCharArray[i - 2] == '!') {
+                    changeCaseLetter(i, 0, "lower");
+                }
+                else {
+                    changeCaseLetter(i, 0, "upper");
+                }
+            }
+        }
+        System.out.println(txtCharArray);
+        txtCharArray = Arrays.copyOf(originaltxtCharArray, originaltxtCharArray.length);
     }
 
     static void lowerCase(String text){
@@ -112,24 +139,42 @@ public class CaseConverter
 
     static void beginningUpperCase(String text)
     {
-        txtCharArray = text.toCharArray();
-
         for (int i = 0; i < txtCharArray.length; i++)
         {
             if(i == 0) {
-                changeCaseLetter(text,i, 0, "upper");
+                changeCaseLetter(i, 0, "upper");
             }
 
             if(txtCharArray[i] == ' ') {
-                changeCaseLetter(text, i,1, "upper");
+                changeCaseLetter(i,1, "upper");
             }
         }
 
         System.out.println(txtCharArray);
+        txtCharArray = Arrays.copyOf(originaltxtCharArray, originaltxtCharArray.length);
     }
 
     static void alternateCase(String text)
     {
+        for (int i = 0; i < txtCharArray.length; i++)
+        {
+            if(i % 2 != 0) {
+                changeCaseLetter(i, 0, "upper");
+            }
+        }
 
+        System.out.println(txtCharArray);
+        txtCharArray = Arrays.copyOf(originaltxtCharArray, originaltxtCharArray.length);
+    }
+
+    static void reverseText(String text)
+    {
+        char[] temp = new char[txtCharArray.length];
+
+        for(int i = txtCharArray.length - 1; i >= 0; i--) {
+            temp[txtCharArray.length - 1 - i] = txtCharArray[i];
+        }
+
+        System.out.println(temp);
     }
 }
