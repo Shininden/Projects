@@ -2,35 +2,71 @@ package Projects.ChessGame.BoardGame;
 
 public class Board 
 {
-    private int rows;
-    private int columns;
-    private PieceBaseLogic[][] pieces;
+    private int rowsNumber;
+    private int columnsNumber;
+    private Piece[][] piecesMatrix;
 
     public Board(int rows, int columns) 
     {
-        this.rows = rows;
-        this.columns = columns;
-        pieces = new PieceBaseLogic[rows][columns];
+        this.rowsNumber = rows;
+        this.columnsNumber = columns;
+        piecesMatrix = new Piece[rows][columns];
     }
 
-    public PieceBaseLogic getPiece(int row, int column){
-        return pieces[row][column];
-    }
-    public PieceBaseLogic getPiece(Position pos){
-        return pieces[ pos.getRow()][pos.getColumn() ];
-    }
-
-    public int getRows() {
-        return rows;
-    }
-    public void setRows(int rows) {
-        this.rows = rows;
+    public void placePiece(Piece piece, Position pos)
+    {
+        if(isTherePieceAtPos(pos)){
+            throw new BoardException("Invalid Position, there is already a piece at the position " + pos);
+        }
+        else
+        {
+            piecesMatrix[pos.getRow()][pos.getColumn()] = piece;
+            piece.pos = pos;
+        }
     }
 
-    public int getColumns() {
-        return columns;
+    private boolean doesPosExist(int row, int column){
+        return ( row >= 0 && row < getRowsNumber() ) && ( column >= 0 && column < getColumnsNumber() );
     }
-    public void setColumns(int columns) {
-        this.columns = columns;
+    public boolean doesPosExist(Position pos){
+        return doesPosExist(pos.getRow(), pos.getColumn());
+    }
+
+    public boolean isTherePieceAtPos(Position pos)
+    {
+        if(!doesPosExist(pos)){
+            throw new BoardException("Invalid Position");
+        }
+
+        return getPiece(pos) != null;
+    }
+
+
+
+
+
+    public int getRowsNumber() {
+        return rowsNumber;
+    }
+    public int getColumnsNumber() {
+        return columnsNumber;
+    }
+
+    public Piece getPiece(int row, int column)
+    {
+        if(!doesPosExist(row, column)){
+            throw new BoardException("Invalid Position");
+        }
+
+        return piecesMatrix[row][column];
+    }
+
+    public Piece getPiece(Position pos)
+    {
+        if(!doesPosExist(pos)){
+            throw new BoardException("Invalid Position");
+        }
+        
+        return piecesMatrix[ pos.getRow()][pos.getColumn() ];
     }
 }

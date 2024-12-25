@@ -1,9 +1,9 @@
 package Projects.ChessGame.Chess;
 
 import Projects.ChessGame.BoardGame.Board;
-import Projects.ChessGame.BoardGame.PieceBaseLogic;
+import Projects.ChessGame.BoardGame.Piece;
 
-public class ChessPiece extends PieceBaseLogic
+public class ChessPiece extends Piece
 {
     private Color color;
 

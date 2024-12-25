@@ -1,11 +1,11 @@
 package Projects.ChessGame.BoardGame;
 
-public class PieceBaseLogic 
+public class Piece 
 {
     protected Position pos;
     private Board board;
 
-    public PieceBaseLogic(Board board) 
+    public Piece(Board board) 
     {
         this.board = board;
         this.pos = null;
