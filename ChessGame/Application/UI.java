@@ -1,6 +1,15 @@
 package Projects.ChessGame.Application;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import Projects.ChessGame.Chess.ChessException;
+import Projects.ChessGame.Chess.ChessMatch;
 import Projects.ChessGame.Chess.ChessPiece;
+import Projects.ChessGame.Chess.ChessPosition;
 import Projects.ChessGame.Chess.Color;
 
 public class UI 
@@ -27,6 +36,51 @@ public class UI
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+    public static void clearScreen()
+    {
+        System.out.println("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public static ChessPosition readChessPos(Scanner sc)
+    {
+        try 
+        {
+            String pos = sc.nextLine();
+            char column = pos.charAt(0);
+            int row = Integer.parseInt( pos.substring(1) );
+            return new ChessPosition(column, row);
+        } 
+        
+        catch (RuntimeException e) {
+            throw new ChessException("Error: values must be between a1 to h8");
+        }
+    }
+
+    public static void printMatch(ChessMatch chessMatch, List<ChessPiece> capturesList)
+    {
+        printBoard(chessMatch.getPiecesMatrix());
+        System.out.println();
+
+        printCapturedPieces(capturesList);
+
+        System.out.println("Turn: " + chessMatch.getTurn());
+
+        if(!chessMatch.isInCheckMate())
+        {
+            System.out.println("Waiting the move from player: " + chessMatch.getCurrPlayerColor());
+        
+            if(chessMatch.isInCheck()){
+                System.out.println("Check!!!");
+            }
+        }
+        else
+        {
+            System.out.println("CHECK MATE!!!");
+            System.out.println("Winner: " + chessMatch.getCurrPlayerColor());
+        }
+       
+    }
 
     public static void printBoard(ChessPiece[][] chessPieces)
     {
@@ -35,7 +89,7 @@ public class UI
             System.out.print( (chessPieces.length - i) + " ");
             
             for (int j = 0; j < chessPieces[i].length; j++) {
-                printOnePiece(chessPieces[i][j]);
+                printOnePiece(chessPieces[i][j], false);
             }
 
             System.out.println();
@@ -44,10 +98,29 @@ public class UI
         System.out.println("  a b c d e f g h");
     }
 
-    private static void printOnePiece(ChessPiece chessPiece)
+    public static void printBoard(ChessPiece[][] chessPieces, boolean[][] possibleSlots)
     {
+        for (int i = 0; i < chessPieces.length; i++) 
+        {
+            System.out.print( (chessPieces.length - i) + " ");
+            
+            for (int j = 0; j < chessPieces[i].length; j++) {
+                printOnePiece(chessPieces[i][j], possibleSlots[i][j]);
+            }
+
+            System.out.println();
+        }
+
+        System.out.println("  a b c d e f g h");
+    }
+
+    private static void printOnePiece(ChessPiece chessPiece, boolean shoouldColorBG)
+    {
+        if(shoouldColorBG){
+            System.out.print(ANSI_GREEN_BACKGROUND);
+        }
         if(chessPiece == null){
-            System.out.print("- ");
+            System.out.print("-" + ANSI_RESET + " ");
         }
 
         else 
@@ -56,8 +129,24 @@ public class UI
                 System.out.print(ANSI_WHITE + chessPiece + ANSI_RESET + " ");
             }
             else {
-                System.out.print(ANSI_BLUE + chessPiece + ANSI_RESET + " ");
+                System.out.print(ANSI_BLACK + chessPiece + ANSI_RESET + " ");
             }
         }
     }    
+
+    private static void printCapturedPieces(List<ChessPiece> capturedPieces)
+    {
+        List<ChessPiece> whitePieces = capturedPieces.stream().filter(x -> x.getColor() == Color.WHITE).collect(Collectors.toList());
+        List<ChessPiece> blackPieces = capturedPieces.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList());
+        
+        System.out.println("Captured Pieces: ");
+
+        System.out.print("\nWhite Pieces: " + ANSI_WHITE);
+        System.out.println( Arrays.toString(whitePieces.toArray()) );
+        System.out.print(ANSI_RESET);
+
+        System.out.print("Black Pieces: " + ANSI_BLACK);
+        System.out.println( Arrays.toString(blackPieces.toArray()) );
+        System.out.print(ANSI_RESET+"\n");
+    }
 }

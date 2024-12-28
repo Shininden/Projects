@@ -30,10 +30,8 @@ public class ChessPosition
     }
         
     protected static ChessPosition matrix_to_ChessPos(Position pos){
-        return new ChessPosition( (char) (MINIMUM_CHAR - pos.getColumn()),  MAXIMUM_INT - pos.getRow() );
+        return new ChessPosition( (char) (MINIMUM_CHAR + pos.getColumn()),  MAXIMUM_INT - pos.getRow() );
     }
-
-    
 
 
     @Override

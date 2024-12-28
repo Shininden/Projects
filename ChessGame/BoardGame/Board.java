@@ -21,9 +21,27 @@ public class Board
         else
         {
             piecesMatrix[pos.getRow()][pos.getColumn()] = piece;
-            piece.pos = pos;
+            piece.piecePos = pos;
         }
     }
+
+    public Piece removePiece(Position pos)
+    {
+        if(!doesPosExist(pos)){
+            throw new BoardException("Invalid Position");
+        }
+
+        if(getPiece(pos) == null){
+            return null;
+        }
+        else
+        {
+            Piece tempHolder = getPiece(pos);
+            tempHolder.piecePos = null;
+            piecesMatrix[pos.getRow()][pos.getColumn()] = null;
+            return tempHolder;
+        }
+    }    
 
     private boolean doesPosExist(int row, int column){
         return ( row >= 0 && row < getRowsNumber() ) && ( column >= 0 && column < getColumnsNumber() );

@@ -1,17 +1,39 @@
 package Projects.ChessGame.BoardGame;
 
-public class Piece 
+public abstract class Piece 
 {
-    protected Position pos;
+    protected Position piecePos;
     private Board board;
 
     public Piece(Board board) 
     {
         this.board = board;
-        this.pos = null;
+        this.piecePos = null;
     }
 
     protected Board getBoard() {
         return board;
+    }
+
+    public abstract boolean[][] possibleMoves();
+
+    public boolean isMovePossible(Position pos){
+        return possibleMoves()[pos.getRow()][pos.getColumn()];
+    }
+
+    public boolean isThereAnyPossibleMoves()
+    {
+        boolean[][] boolMatrix = possibleMoves();
+
+        for (int i = 0; i < boolMatrix.length; i++) 
+        {
+            for (int j = 0; j < boolMatrix[i].length; j++) 
+            {
+                if(boolMatrix[i][j]){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
