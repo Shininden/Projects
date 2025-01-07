@@ -3,7 +3,6 @@ package Projects.ChessGame.Application;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import Projects.ChessGame.Chess.ChessException;
@@ -47,8 +46,10 @@ public class UI
         try 
         {
             String pos = sc.nextLine();
+            
             char column = pos.charAt(0);
             int row = Integer.parseInt( pos.substring(1) );
+            
             return new ChessPosition(column, row);
         } 
         
@@ -114,9 +115,9 @@ public class UI
         System.out.println("  a b c d e f g h");
     }
 
-    private static void printOnePiece(ChessPiece chessPiece, boolean shoouldColorBG)
+    private static void printOnePiece(ChessPiece chessPiece, boolean shouldColorBG)
     {
-        if(shoouldColorBG){
+        if(shouldColorBG){
             System.out.print(ANSI_GREEN_BACKGROUND);
         }
         if(chessPiece == null){

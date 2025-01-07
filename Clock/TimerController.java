@@ -30,6 +30,8 @@ public class TimerController implements Runnable
         else{
             System.out.println("Unidade de tempo inválida");
         }
+
+        sc.close();
     }
 
     @Override

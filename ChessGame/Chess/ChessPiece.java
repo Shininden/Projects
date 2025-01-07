@@ -17,7 +17,7 @@ public abstract class ChessPiece extends Piece
 
     protected boolean isThereEnemyAt(Position pos)
     {
-        ChessPiece enemyPiece = (ChessPiece) getBoard().getPiece(pos);
+        ChessPiece enemyPiece = (ChessPiece) getBoard().getPieceAt(pos);
         
         return enemyPiece != null  &&  enemyPiece.getColor() != this.color;
     }

@@ -1,5 +1,6 @@
 package Projects.ChessGame.Application;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -12,13 +13,17 @@ import Projects.ChessGame.Chess.ChessPosition;
 
 public class MainProgram 
 {
+   // Improvements:
+   // see if movments can be turned into methods
+   // enPassant -> boolean
+
    public static void main(String[] args) 
    {
       Scanner sc = new Scanner(System.in);
       ChessMatch match = new ChessMatch();
       List<ChessPiece> capturesList = new ArrayList<>();
 
-      while (!match.isInCheck()) 
+      while (!match.isInCheckMate()) 
       {
          try 
          {
@@ -29,8 +34,8 @@ public class MainProgram
    
             System.out.print("Source: ");
             ChessPosition source = UI.readChessPos(sc);
-
             boolean[][] possibleSlots = match.slotsToMoveTo(source);
+            
             UI.clearScreen();
             UI.printBoard(match.getPiecesMatrix(), possibleSlots);
    
@@ -43,6 +48,20 @@ public class MainProgram
             
             if(capturedPiece != null){
                capturesList.add(capturedPiece);
+            }
+
+            if(match.getPromotedPawn() != null)
+            {
+               System.out.print("Which piece would you like to promote the pawn to? (B/N/R/Q) ");
+               String type = sc.nextLine();
+               
+               while(!type.equalsIgnoreCase("B") && !type.equalsIgnoreCase("N") && !type.equalsIgnoreCase("R") && !type.equalsIgnoreCase("Q"))
+               {
+                  System.out.print("Invalid Type for promotion!! (B/N/R/Q) ");
+                  type = sc.nextLine();
+               }   
+
+               match.replacePromotedPiece(type);
             }
          } 
          catch (ChessException e) 

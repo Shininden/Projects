@@ -18,6 +18,7 @@ public class Carrinho
         }
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     public void removeItem(int itemCod)
     {
         if(!itens.isEmpty())

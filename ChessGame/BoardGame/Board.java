@@ -25,18 +25,18 @@ public class Board
         }
     }
 
-    public Piece removePiece(Position pos)
+    public Piece removePieceAt(Position pos)
     {
         if(!doesPosExist(pos)){
             throw new BoardException("Invalid Position");
         }
 
-        if(getPiece(pos) == null){
+        if(getPieceAt(pos) == null){
             return null;
         }
         else
         {
-            Piece tempHolder = getPiece(pos);
+            Piece tempHolder = getPieceAt(pos);
             tempHolder.piecePos = null;
             piecesMatrix[pos.getRow()][pos.getColumn()] = null;
             return tempHolder;
@@ -56,7 +56,7 @@ public class Board
             throw new BoardException("Invalid Position");
         }
 
-        return getPiece(pos) != null;
+        return getPieceAt(pos) != null;
     }
 
 
@@ -79,7 +79,7 @@ public class Board
         return piecesMatrix[row][column];
     }
 
-    public Piece getPiece(Position pos)
+    public Piece getPieceAt(Position pos)
     {
         if(!doesPosExist(pos)){
             throw new BoardException("Invalid Position");
