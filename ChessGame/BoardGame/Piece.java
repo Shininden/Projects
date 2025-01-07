@@ -11,10 +11,6 @@ public abstract class Piece
         this.piecePos = null;
     }
 
-    protected Board getBoard() {
-        return board;
-    }
-
     public abstract boolean[][] possibleMoves();
 
     public boolean isMovePossible(Position pos){
@@ -35,5 +31,9 @@ public abstract class Piece
             }
         }
         return false;
+    }
+
+    protected Board getBoard() {
+        return board;
     }
 }

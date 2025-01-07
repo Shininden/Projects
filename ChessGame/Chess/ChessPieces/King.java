@@ -23,58 +23,61 @@ public class King extends ChessPiece
         return  pieceAtPos == null || pieceAtPos.getColor() != this.getColor();
     }
 
+    private boolean isSlotValid(Position nextPosi){
+        return getBoard().doesPosExist(nextPosi) && canMoveToPos(nextPosi);
+    }
+
     @Override
     public boolean[][] possibleMoves() 
     {
         boolean[][] possiblesMatrix = new boolean[getBoard().getRowsNumber()][getBoard().getColumnsNumber()];
-        
         Position nextPos = new Position(0, 0);
-        
+
         //above
         nextPos.setCoordinates(piecePos.getRow() - 1, piecePos.getColumn());
-        if(getBoard().doesPosExist(nextPos) && canMoveToPos(nextPos)){
+        if(isSlotValid(nextPos)){
             possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
         }
 
         //below
         nextPos.setCoordinates(piecePos.getRow() + 1, piecePos.getColumn());
-        if(getBoard().doesPosExist(nextPos) && canMoveToPos(nextPos)){
+        if(isSlotValid(nextPos)){
             possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
         }
 
         //left
         nextPos.setCoordinates(piecePos.getRow(), piecePos.getColumn() - 1);
-        if(getBoard().doesPosExist(nextPos) && canMoveToPos(nextPos)){
+        if(isSlotValid(nextPos)){
             possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
         }
 
         //right
         nextPos.setCoordinates(piecePos.getRow(), piecePos.getColumn() + 1);
-        if(getBoard().doesPosExist(nextPos) && canMoveToPos(nextPos)){
+        if(isSlotValid(nextPos)){
             possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
         }
 
         //north West
         nextPos.setCoordinates(piecePos.getRow() - 1, piecePos.getColumn() - 1);
-        if(getBoard().doesPosExist(nextPos) && canMoveToPos(nextPos)){
+        if(isSlotValid(nextPos)){
             possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
         }
 
         //north East
         nextPos.setCoordinates(piecePos.getRow() - 1, piecePos.getColumn() + 1);
-        if(getBoard().doesPosExist(nextPos) && canMoveToPos(nextPos)){
+        if(isSlotValid(nextPos)){
             possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
         }
 
         //south West
         nextPos.setCoordinates(piecePos.getRow() + 1, piecePos.getColumn() - 1);
-        if(getBoard().doesPosExist(nextPos) && canMoveToPos(nextPos)){
+        if(isSlotValid(nextPos)){
             possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
         }
 
         //south East
         nextPos.setCoordinates(piecePos.getRow() + 1, piecePos.getColumn() + 1);
-        if(getBoard().doesPosExist(nextPos) && canMoveToPos(nextPos)){
+        if(isSlotValid(nextPos)){
             possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
         }
 
@@ -112,6 +115,7 @@ public class King extends ChessPiece
 
         return possiblesMatrix;
     }
+
 
     private boolean testRookCastling(Position pos)
     {

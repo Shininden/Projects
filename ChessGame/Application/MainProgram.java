@@ -1,6 +1,5 @@
 package Projects.ChessGame.Application;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -13,10 +12,6 @@ import Projects.ChessGame.Chess.ChessPosition;
 
 public class MainProgram 
 {
-   // Improvements:
-   // see if movments can be turned into methods
-   // enPassant -> boolean
-
    public static void main(String[] args) 
    {
       Scanner sc = new Scanner(System.in);

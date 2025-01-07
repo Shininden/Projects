@@ -15,7 +15,7 @@ public class Knight  extends ChessPiece
     {
         ChessPiece pieceAtPos = (ChessPiece) getBoard().getPieceAt(desiredPos);
 
-        return  pieceAtPos == null || pieceAtPos.getColor() != this.getColor();
+        return pieceAtPos == null || pieceAtPos.getColor() != this.getColor();
     }
 
     @Override

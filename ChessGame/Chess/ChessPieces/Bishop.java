@@ -11,6 +11,14 @@ public class Bishop extends ChessPiece
         super(board, color);
     }
 
+    private boolean canKeepMoving(Position nextPosi){
+        return getBoard().doesPosExist(nextPosi)  &&  !getBoard().isTherePieceAtPos(nextPosi);
+    }
+
+    private boolean canKillEnemy(Position nextPosi){
+        return getBoard().doesPosExist(nextPosi)  &&  isThereEnemyAt(nextPosi);
+    }
+
     @Override
     public boolean[][] possibleMoves() 
     {
@@ -21,48 +29,48 @@ public class Bishop extends ChessPiece
         //checking if there's available places north west
         nextPos.setCoordinates(piecePos.getRow() - 1, piecePos.getColumn() - 1);
 
-        while (getBoard().doesPosExist(nextPos)  &&  !getBoard().isTherePieceAtPos(nextPos)) 
+        while (canKeepMoving(nextPos)) 
         {
             possiblesMatrix[ nextPos.getRow()][nextPos.getColumn() ] = true;
             nextPos.setCoordinates(nextPos.getRow() - 1, nextPos.getColumn() - 1);
         }
-        if(getBoard().doesPosExist(nextPos)  &&  isThereEnemyAt(nextPos)){
+        if(canKillEnemy(nextPos)){
             possiblesMatrix[ nextPos.getRow()][nextPos.getColumn() ] = true;
         }
 
         //checking if there's available places north east
         nextPos.setCoordinates(piecePos.getRow() - 1, piecePos.getColumn() + 1);
 
-        while (getBoard().doesPosExist(nextPos)  &&  !getBoard().isTherePieceAtPos(nextPos)) 
+        while (canKeepMoving(nextPos)) 
         {
             possiblesMatrix[ nextPos.getRow()][nextPos.getColumn() ] = true;
             nextPos.setCoordinates(nextPos.getRow() - 1, nextPos.getColumn() + 1);
         }
-        if(getBoard().doesPosExist(nextPos)  &&  isThereEnemyAt(nextPos)){
+        if(canKillEnemy(nextPos)){
             possiblesMatrix[ nextPos.getRow()][nextPos.getColumn() ] = true;
         }
 
         //checking if there's available places south east
         nextPos.setCoordinates(piecePos.getRow() + 1, piecePos.getColumn() + 1);
 
-        while (getBoard().doesPosExist(nextPos)  &&  !getBoard().isTherePieceAtPos(nextPos)) 
+        while (canKeepMoving(nextPos)) 
         {
             possiblesMatrix[ nextPos.getRow()][nextPos.getColumn() ] = true;
             nextPos.setCoordinates(nextPos.getRow() + 1, nextPos.getColumn() + 1);
         }
-        if(getBoard().doesPosExist(nextPos)  &&  isThereEnemyAt(nextPos)){
+        if(canKillEnemy(nextPos)){
             possiblesMatrix[ nextPos.getRow()][nextPos.getColumn() ] = true;
         }
 
         //checking if there's available places south west
         nextPos.setCoordinates(piecePos.getRow() + 1, piecePos.getColumn() - 1);
 
-        while (getBoard().doesPosExist(nextPos)  &&  !getBoard().isTherePieceAtPos(nextPos)) 
+        while (canKeepMoving(nextPos)) 
         {
             possiblesMatrix[ nextPos.getRow()][nextPos.getColumn() ] = true;
             nextPos.setCoordinates(nextPos.getRow() + 1, nextPos.getColumn() - 1);
         }
-        if(getBoard().doesPosExist(nextPos)  &&  isThereEnemyAt(nextPos)){
+        if(canKillEnemy(nextPos)){
             possiblesMatrix[ nextPos.getRow()][nextPos.getColumn() ] = true;
         }
 

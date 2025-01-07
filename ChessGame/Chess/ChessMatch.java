@@ -55,8 +55,8 @@ public class ChessMatch
             undoMove(source, target, capturedPiece);
             throw new ChessException("You can't put yourself in check");
         }
-
         ChessPiece movedPiece = (ChessPiece) board.getPieceAt(target);
+
 
         //Special Move: Promotion
         promotedPawn = null;
@@ -67,6 +67,8 @@ public class ChessMatch
             }
         }
 
+        //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
         isInCheck = ( testForCheck(getEnemyOf(currPlayerColor)) )  ?  true : false;
 
         if( testForCheckMate( getEnemyOf(currPlayerColor) ) ) {
@@ -76,6 +78,9 @@ public class ChessMatch
             nextTurn();
         }
 
+        //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+        
+        
         //Special Move: En passant
         if(movedPiece instanceof Pawn && (target.getRow() == source.getRow() - 2 || target.getRow() == source.getRow() + 2)){
             enPassant_VulnerablePiece = movedPiece;
@@ -285,8 +290,7 @@ public class ChessMatch
         }
 
         return false;
-    }
-    
+    }   
     private boolean testForCheckMate(Color kingColor)
     {
         if(!testForCheck(kingColor)){

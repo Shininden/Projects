@@ -16,45 +16,54 @@ public class Pawn extends ChessPiece
         this.chessMatch = chessMatch;
     }
 
+    private boolean canMoveTo(Position nextPosi){
+        return getBoard().doesPosExist(nextPosi) && !getBoard().isTherePieceAtPos(nextPosi);
+    }
+
+    private boolean canMoveTo(Position nextPosi, int moveCount){
+        return getBoard().doesPosExist(nextPosi) && !getBoard().isTherePieceAtPos(nextPosi) && getMoveCount() == moveCount;
+    }
+
+    private boolean canKillEnemy(Position nextPosi){
+        return getBoard().doesPosExist(nextPosi) && isThereEnemyAt(nextPosi);
+    }
+
+    private boolean canDoEnPassaint(Position nextPosi){
+        return canKillEnemy(nextPosi) && getBoard().getPieceAt(nextPosi).equals(chessMatch.getEnPassant_VulnerablePiece());
+    }
+
     @Override
     public boolean[][] possibleMoves() 
     {
         boolean[][] possiblesMatrix = new boolean[getBoard().getRowsNumber()][getBoard().getColumnsNumber()];
-        
         Position nextPos = new Position(0, 0);
+
 
         if(getColor() == Color.WHITE)
         {
             //Above
             nextPos.setCoordinates(piecePos.getRow() - 1, piecePos.getColumn());
-
-            if(getBoard().doesPosExist(nextPos) && !getBoard().isTherePieceAtPos(nextPos)){
+            if(canMoveTo(nextPos)){
                 possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
             }
 
             //2 houses above
             nextPos.setCoordinates(piecePos.getRow() - 2, piecePos.getColumn());
             Position forwardPos = new Position(piecePos.getRow() - 1, piecePos.getColumn());
-
-            if(getBoard().doesPosExist(nextPos) && !getBoard().isTherePieceAtPos(nextPos) && 
-               getBoard().doesPosExist(forwardPos) && !getBoard().isTherePieceAtPos(forwardPos) && 
-               getMoveCount() == 0)
-            {
+            if(canMoveTo(nextPos) && canMoveTo(forwardPos, 0)){
                 possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
             }
             
             
             //Left Diagonal
             nextPos.setCoordinates(piecePos.getRow() - 1, piecePos.getColumn() - 1);
-
-            if(getBoard().doesPosExist(nextPos) && isThereEnemyAt(nextPos)){
+            if(canKillEnemy(nextPos)){
                 possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
             }
 
             //Right Diagonal
             nextPos.setCoordinates(piecePos.getRow() - 1, piecePos.getColumn() + 1);
-
-            if(getBoard().doesPosExist(nextPos) && isThereEnemyAt(nextPos)){
+            if(canKillEnemy(nextPos)){
                 possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
             }
 
@@ -62,14 +71,12 @@ public class Pawn extends ChessPiece
             if(piecePos.getRow() == 3)
             {
                 Position leftPos = new Position(piecePos.getRow(), piecePos.getColumn() - 1);
-
-                if(getBoard().doesPosExist(leftPos) && isThereEnemyAt(leftPos) && getBoard().getPieceAt(leftPos).equals(chessMatch.getEnPassant_VulnerablePiece())) {
+                if(canDoEnPassaint(leftPos)) {
                     possiblesMatrix[leftPos.getRow() - 1][leftPos.getColumn()] = true;
                 }
 
                 Position rightPos = new Position(piecePos.getRow(), piecePos.getColumn() + 1);
-
-                if(getBoard().doesPosExist(rightPos) && isThereEnemyAt(rightPos) && getBoard().getPieceAt(rightPos).equals(chessMatch.getEnPassant_VulnerablePiece())) {
+                if(canDoEnPassaint(rightPos)) {
                     possiblesMatrix[rightPos.getRow() - 1][rightPos.getColumn()] = true;
                 }
             }
@@ -79,34 +86,27 @@ public class Pawn extends ChessPiece
         {
             //Bellow
             nextPos.setCoordinates(piecePos.getRow() + 1, piecePos.getColumn());
-
-            if(getBoard().doesPosExist(nextPos) && !getBoard().isTherePieceAtPos(nextPos)){
+            if(canMoveTo(nextPos)){
                 possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
             }
             
             //2 houses Bellow
             nextPos.setCoordinates(piecePos.getRow() + 2, piecePos.getColumn());
             Position forwardPos = new Position(piecePos.getRow() + 1, piecePos.getColumn());
-            
-            if(getBoard().doesPosExist(nextPos) && !getBoard().isTherePieceAtPos(nextPos) && 
-               getBoard().doesPosExist(forwardPos) && !getBoard().isTherePieceAtPos(forwardPos) && 
-               getMoveCount() == 0)
-            {
+            if(canMoveTo(nextPos) && canMoveTo(forwardPos, 0)){
                 possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
             }
                         
                         
             //Left Diagonal
             nextPos.setCoordinates(piecePos.getRow() + 1, piecePos.getColumn() - 1);
-            
-            if(getBoard().doesPosExist(nextPos) && isThereEnemyAt(nextPos)){
+            if(canKillEnemy(nextPos)){
                 possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
             }
             
             //Right Diagonal
             nextPos.setCoordinates(piecePos.getRow() + 1, piecePos.getColumn() + 1);
-            
-            if(getBoard().doesPosExist(nextPos) && isThereEnemyAt(nextPos)){
+            if(canKillEnemy(nextPos)){
                 possiblesMatrix[nextPos.getRow()][nextPos.getColumn()] = true;
             }
         }
@@ -115,15 +115,13 @@ public class Pawn extends ChessPiece
         if(piecePos.getRow() == 4)
         {
             Position leftPos = new Position(piecePos.getRow(), piecePos.getColumn() - 1);
-
-            if(getBoard().doesPosExist(leftPos) && isThereEnemyAt(leftPos) && getBoard().getPieceAt(leftPos).equals(chessMatch.getEnPassant_VulnerablePiece())) {
+            if(canDoEnPassaint(leftPos)) {
                 possiblesMatrix[leftPos.getRow() + 1][leftPos.getColumn()] = true;
             }
 
-            Position righPos = new Position(piecePos.getRow(), piecePos.getColumn() + 1);
-
-            if(getBoard().doesPosExist(righPos) && isThereEnemyAt(righPos) && getBoard().getPieceAt(righPos).equals(chessMatch.getEnPassant_VulnerablePiece())) {
-                possiblesMatrix[righPos.getRow() + 1][righPos.getColumn()] = true;
+            Position rightPos = new Position(piecePos.getRow(), piecePos.getColumn() + 1);
+            if(canDoEnPassaint(rightPos)) {
+                possiblesMatrix[rightPos.getRow() + 1][rightPos.getColumn()] = true;
             }
         }
 

@@ -61,8 +61,6 @@ public class Board
 
 
 
-
-
     public int getRowsNumber() {
         return rowsNumber;
     }
@@ -82,7 +80,7 @@ public class Board
     public Piece getPieceAt(Position pos)
     {
         if(!doesPosExist(pos)){
-            throw new BoardException("Invalid Position");
+            throw new BoardException("Invalid Position, it does not exist");
         }
         
         return piecesMatrix[ pos.getRow()][pos.getColumn() ];

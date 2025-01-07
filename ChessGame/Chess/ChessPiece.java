@@ -29,6 +29,8 @@ public abstract class ChessPiece extends Piece
         this.moveCount--;
     }
 
+
+    
     public ChessPosition getChessPosition(){
         return ChessPosition.matrix_to_ChessPos(piecePos);
     } 
